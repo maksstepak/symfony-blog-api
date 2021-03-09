@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Exception\AccessDeniedException;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -43,5 +44,33 @@ class CommentService
         $this->em->flush();
 
         return $comment;
+    }
+
+    public function update(Comment $comment, User $user): Comment
+    {
+        if (!$this->canEdit($comment, $user)) {
+            throw new AccessDeniedException('Access denied');
+        }
+
+        $comment->setUpdatedAt(new \DateTime());
+
+        $this->em->flush();
+
+        return $comment;
+    }
+
+    public function delete(Comment $comment, User $user): void
+    {
+        if (!$this->canEdit($comment, $user)) {
+            throw new AccessDeniedException('Access denied');
+        }
+
+        $this->em->remove($comment);
+        $this->em->flush();
+    }
+
+    private function canEdit(Comment $comment, User $user): bool
+    {
+        return $comment->getAuthor() === $user || in_array('ROLE_ADMIN', $user->getRoles());
     }
 }
