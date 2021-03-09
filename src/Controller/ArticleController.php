@@ -58,7 +58,7 @@ class ArticleController extends AbstractController
             $article,
             Response::HTTP_OK,
             [],
-            ['groups' => ['show_article', 'show_user']]
+            ['groups' => ['show_article', 'list_user']]
         );
     }
 
