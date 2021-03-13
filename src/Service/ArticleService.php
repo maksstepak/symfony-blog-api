@@ -27,7 +27,7 @@ class ArticleService
 
         $articles = $this->articleRepository->findBy(
             [],
-            [],
+            ['createdAt' => 'DESC'],
             $limit,
             $offset
         );
