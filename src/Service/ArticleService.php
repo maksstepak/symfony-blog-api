@@ -38,6 +38,14 @@ class ArticleService
         ];
     }
 
+    /**
+     * @return Article[]
+     */
+    public function findByAuthor(User $author)
+    {
+        return $this->articleRepository->findByAuthor($author);
+    }
+
     public function add(Article $article, User $author): Article
     {
         $article->setAuthor($author);

@@ -25,6 +25,23 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
+    public function paginate(int $limit, int $offset)
+    {
+        $total = $this->userRepository->count([]);
+
+        $users = $this->userRepository->findBy(
+            [],
+            ['id' => 'DESC'],
+            $limit,
+            $offset
+        );
+
+        return [
+            'total' => $total,
+            'data' => $users
+        ];
+    }
+
     public function add(User $user): User
     {
         $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
