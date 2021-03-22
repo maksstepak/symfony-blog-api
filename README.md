@@ -141,7 +141,3 @@ symfony server:start
         </tr>
     </tbody>
 </table>
-
-## 🚀 Demo
-
-Check it here: [Blog API](https://symfony-blog-api.herokuapp.com/)
